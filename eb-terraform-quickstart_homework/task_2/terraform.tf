@@ -8,20 +8,18 @@ terraform {
 
   backend "s3" {
     ## homework:start
-    bucket = ...
-    key = ...
-    region = ...
+    bucket = "thisisanotherepojusttotest-gustavosoyoy-terraform-state"
+    key = "8569ef14-0651-472d-b9c0-998456429e4c"
+    region = "us-east-1"
     ## homework:end
     # use_lockfile = true
-    profile    = "ExpertiseBuilding"
     encrypt    = true
-    kms_key_id = "a706e211-659a-4c40-b368-88033573f8f7"
+    kms_key_id = "arn:aws:kms:us-east-1:815254799362:key/8569ef14-0651-472d-b9c0-998456429e4c"
   }
 }
 
 provider "aws" {
   ## homework:start
-  profile = ...
   ## homework:end
   region = "us-east-1"
 
@@ -29,14 +27,17 @@ provider "aws" {
     tags = {
       Topic = "terraform"
       ## homework:start
-      Owner = ...
+      Owner = "gajeto"
       ## homework:end
     }
   }
 }
 
-resource "aws_s3_bucket" "bucket" {
-  ## homework:start
-  
-  ## homework:end
+resource "aws_s3_bucket" "backend_bucket_task2" {
+  bucket = "backend-bucket-task2"
+
+  tags = {
+    Name        = "backend-bucket"
+    Environment = "Dev"
+  }
 }

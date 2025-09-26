@@ -9,22 +9,25 @@ terraform {
 
 provider "aws" {
   ## homework:start
-  profile = ...
+  profile = "default"
   ## homework:end
-  region = "us-east-1"
+  region = "eu-central-1"
 
   default_tags {
     tags = {
       Topic = "terraform"
       ## homework:start
-      Owner = ...
+      Owner = "gajeto"
       ## homework:end
     }
   }
 }
 
-resource "aws_s3_bucket" "bucket" {
-  ## homework:start
-  
-  ## homework:end
+resource "aws_s3_bucket" "bucket_mdd_gajeto" {
+  bucket = "test-bucket-mdd"
+
+  tags = {
+    Name        = "test-bucket"
+    Environment = "Dev"
+  }
 }
