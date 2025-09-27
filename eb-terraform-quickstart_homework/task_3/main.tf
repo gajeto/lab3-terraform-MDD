@@ -9,7 +9,7 @@ terraform {
 
 provider "aws" {
   ## homework:start
-  profile = ...
+  ## profile = ...
   ## homework:end
   region = "us-east-1"
 
@@ -17,7 +17,7 @@ provider "aws" {
     tags = {
       Topic = "terraform"
       ## homework:start
-      Owner = ...
+      Owner = "gajeto"
       ## homework:end
     }
   }
@@ -28,11 +28,11 @@ module "ec2" {
   source = "./ec2"
 
   ## homework:start
-  instance_type = ...
+  instance_type = "t2.micro"
   ## homework:end
 
   ## homework:start
-  public_ssh_key = ...
+  public_ssh_key = pathexpand("~/.ssh/id_ed25519.pub")
   ## homework:end
 
   user_data = filebase64("./scripts/user_data.sh")

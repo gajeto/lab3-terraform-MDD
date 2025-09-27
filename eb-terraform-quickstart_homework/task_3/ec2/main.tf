@@ -1,18 +1,18 @@
-resource "aws_instance" "this" {
+resource "aws_instance" "ec2_task3" {
   # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
-  ami                         = data.aws_ami.this.id
+  ami                         = data.aws_ami.ec2_task3.id
   instance_type               = var.instance_type
-  key_name                    = aws_key_pair.this.key_name
-  security_groups             = [aws_security_group.this.name]
+  key_name                    = aws_key_pair.ec2_task3.key_name
+  security_groups             = [aws_security_group.ec2_task3.name]
   user_data                   = var.user_data
   user_data_replace_on_change = true
 }
 
 
-data "aws_ami" "this" {
+data "aws_ami" "ec2_task3" {
   most_recent = true
 
-  owners = ["099720109477"] # Canonical
+  owners = ["amazon"] # Canonical
 
   filter {
     name   = "virtualization-type"
@@ -26,25 +26,25 @@ data "aws_ami" "this" {
 
   ## homework:start
   filter {
-    name   = ...
-    values = [...]
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
   ## homework:end
 
 }
 
-resource "aws_key_pair" "this" {
+resource "aws_key_pair" "ec2_task3" {
   key_name   = "my-ec2-key"
-  public_key = var.public_ssh_key
+  public_key = file(var.public_key_path)
 }
 
-resource "aws_security_group" "this" {
+resource "aws_security_group" "ec2_task3" {
   name        = "allow_tls"
   description = "Allow TLS inbound traffic and all outbound traffic"
 }
 
-resource "aws_vpc_security_group_ingress_rule" "this" {
-  security_group_id = aws_security_group.this.id
+resource "aws_vpc_security_group_ingress_rule" "ec2_task3" {
+  security_group_id = aws_security_group.ec2_task3.id
   cidr_ipv4         = "0.0.0.0/0" # use more restrictions in a production setting
   from_port         = 22
   ip_protocol       = "tcp"
@@ -52,8 +52,8 @@ resource "aws_vpc_security_group_ingress_rule" "this" {
 }
 
 
-resource "aws_vpc_security_group_egress_rule" "this" {
-  security_group_id = aws_security_group.this.id
+resource "aws_vpc_security_group_egress_rule" "ec2_task3" {
+  security_group_id = aws_security_group.ec2_task3.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
 }

@@ -1,13 +1,12 @@
 terraform {
   backend "s3" {
     ## homework:start
-    bucket = ...
-    key = ...
-    region = ...
+    bucket = "task3-backend-gajeto-terraform-state"
+    key = "6af25d02-c1fa-4895-ad07-abb22b336d92"
+    region = "us-east-1"
     ## homework:end
     # use_lockfile = true
-    profile    = "ExpertiseBuilding"
     encrypt    = true
-    kms_key_id = "a706e211-659a-4c40-b368-88033573f8f7"
+    kms_key_id = "arn:aws:kms:us-east-1:815254799362:key/6af25d02-c1fa-4895-ad07-abb22b336d92"
   }
 }

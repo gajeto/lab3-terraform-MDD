@@ -10,6 +10,12 @@ variable "public_ssh_key" {
   description = "Public key to be able to connect to the instance using ssh"
 }
 
+variable "public_key_path" {
+  type        = string
+  description = "Ruta al archivo .pub"
+  default = "/Users/gajeto/.ssh/ssh-key-task3.pub"
+}
+
 variable "ssh_allowed_cidrs" {
   type    = list(string)
   default = ["0.0.0.0/0"] # You should restrict this for production
