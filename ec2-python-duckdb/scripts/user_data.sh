@@ -1,24 +1,20 @@
 #!/bin/bash
 set -euxo pipefail
 
-# --- Amazon Linux 2023 base + SSM ---
 dnf -y update
 dnf -y install python3 python3-pip htop amazon-ssm-agent
 systemctl enable --now amazon-ssm-agent || true
 
-# --- Python venv ---
 VENV_DIR="/opt/app-venv"
 if [[ ! -d "$VENV_DIR" ]]; then
   /usr/bin/python3 -m venv "$VENV_DIR"
 fi
 
-# --- Packages: Flask + pandas + DuckDB (prefer wheels; no builds) ---
 source "$VENV_DIR/bin/activate"
 pip install --upgrade pip
 pip install --only-binary=:all: flask pandas duckdb
 deactivate
 
-# --- Non-versioned Flask app (pandas + DuckDB; everything at "/") ---
 mkdir -p /opt/hello
 cat >/opt/hello/app.py <<'PY'
 from flask import Flask
