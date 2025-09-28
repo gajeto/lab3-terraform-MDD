@@ -20,6 +20,10 @@ Al finalizar la configuración se muestran algunos datos de la instancia creada.
 
 ![Apply out](./results/apply-out.png)
 
+![⚠️ WARNING](https://img.shields.io/badge/%E2%9A%A0%EF%B8%8F-WARNING-red?style=for-the-badge) 
+#### Importante: Después de terminar la validación, ejecutar el comando  `terraform destroy` para eliminar todos los recursos creados y no generar costos adicionales.
+
+
 ## Validación
 Una vez creada la instancia se puede inicar la conexión mediante el siguiente comando, especificando el argumento target con el valor copiado de **instance_ID**:
 ```bash
