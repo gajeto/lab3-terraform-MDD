@@ -28,7 +28,7 @@ Al finalizar la configuración se muestran algunos datos de la instancia creada.
 ## Validación
 Una vez creada la instancia se puede inicar la conexión mediante el siguiente comando, especificando el argumento target con el valor copiado de **instance_ID**:
 ```bash
-aws ssm start-session --target i-020792ee5b4901ace
+aws ssm start-session --target i-05188c2d4303be581
 ```
 En la sesión iniciada se accede al ambiente virtual donde se instaló polars en la ruta:
 ```bash
