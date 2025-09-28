@@ -1,12 +1,11 @@
 #!/bin/bash
 set -euxo pipefail
 
-# --- Amazon Linux 2 base ---
 yum -y update
 yum -y install python3 python3-pip amazon-ssm-agent || true
 systemctl enable --now amazon-ssm-agent || true
 
-# --- Python venv + pandas ---
+# Install pandas in a venv
 VENV_DIR="/opt/app-venv"
 if [[ ! -d "$VENV_DIR" ]]; then
   /usr/bin/python3 -m venv "$VENV_DIR"
@@ -16,7 +15,7 @@ pip install --upgrade pip
 pip install flask pandas
 deactivate
 
-# --- Non-versioned Flask app written at boot ---
+# Create a web app with flask on instance boot
 mkdir -p /opt/hello
 cat >/opt/hello/app.py <<'PY'
 from flask import Flask
@@ -73,7 +72,6 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
 PY
 
-# --- Systemd unit to keep it running ---
 cat >/etc/systemd/system/hello.service <<'UNIT'
 [Unit]
 Description=Hello app (SSM demo)

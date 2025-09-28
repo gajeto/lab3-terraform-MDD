@@ -20,8 +20,9 @@ Al finalizar la configuración se muestran algunos datos de la instancia creada.
 
 ![Apply out](./results/apply-out.png)
 
-![⚠️ WARNING](https://img.shields.io/badge/%E2%9A%A0%EF%B8%8F-WARNING-red?style=for-the-badge) 
-#### Importante: Después de terminar la validación, ejecutar el comando  `terraform destroy` para eliminar todos los recursos creados y no generar costos adicionales.
+![⚠️ IMPORTANTE](https://img.shields.io/badge/%E2%9A%A0%EF%B8%8F-WARNING-red?style=for-the-badge) 
+
+**Después de terminar la validación**, ejecutar el comando  `terraform destroy` para eliminar todos los recursos creados y no generar costos adicionales.
 
 
 ## Validación
