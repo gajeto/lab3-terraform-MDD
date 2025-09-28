@@ -1,4 +1,4 @@
-# --- SSM: IAM role that EC2 can assume ---
+# Create an IAM role that EC2 can assume and attach the policy and profile to add SSM permissionss
 resource "aws_iam_role" "ec2_ssm" {
   name = "ec2-ssm-role-pandas"
 
@@ -12,13 +12,11 @@ resource "aws_iam_role" "ec2_ssm" {
   })
 }
 
-# --- SSM: attach the managed policy that grants SSM permissions ---
 resource "aws_iam_role_policy_attachment" "ec2_ssm_core" {
   role       = aws_iam_role.ec2_ssm.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
-# --- SSM: instance profile that will be attached to the EC2 instance ---
 resource "aws_iam_instance_profile" "ec2_ssm" {
   name = "ec2-ssm-instance-profile-pandas"
   role = aws_iam_role.ec2_ssm.name
@@ -37,11 +35,11 @@ resource "aws_instance" "ec2_pandas" {
   }
 }
 
-
+# Provision an Amazon Linux 2 AMI
 data "aws_ami" "ec2_pandas" {
   most_recent = true
 
-  owners = ["amazon"] # Canonical
+  owners = ["amazon"]
 
   filter {
     name   = "virtualization-type"
@@ -60,6 +58,7 @@ data "aws_ami" "ec2_pandas" {
 
 }
 
+# Create security group for the instance and egress rule
 resource "aws_security_group" "ec2_pandas" {
   name        = "allow_tls-pandas"
   description = "Allow TLS inbound traffic and all outbound traffic"
@@ -68,5 +67,5 @@ resource "aws_security_group" "ec2_pandas" {
 resource "aws_vpc_security_group_egress_rule" "ec2_pandas" {
   security_group_id = aws_security_group.ec2_pandas.id
   cidr_ipv4         = "0.0.0.0/0"
-  ip_protocol       = "-1" # semantically equivalent to all ports
+  ip_protocol       = "-1"
 }
