@@ -21,7 +21,7 @@ lab3-terraform-MDD/
   Ejercicios de acercamiento a la sintaxis terraform y configuración de buckets e instancias EC2. Se incluye PDF con evidencias de aplicación.
 
 - **`ec2-python-duckdb/` · `ec2-python-pandas/` · `ec2-python-polars/` · `ec2-python-spark/`**  
-  Configuración en Terraform de ** instancias EC2** con instalación de Python y librerías específicas desde `user_data`.
+  Configuración en Terraform de **instancias EC2** con instalación de Python y librerías específicas desde `user_data`.
 
 - **`emr-cluster/`**  
   Configuración en Terraform de un cluster **Amazon EMR** utilizando el módulo `emr` para habilitar la ejecución de jobs distribuidos.
