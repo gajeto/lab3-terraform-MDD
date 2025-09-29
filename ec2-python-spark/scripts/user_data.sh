@@ -1,16 +1,14 @@
 #!/bin/bash
 set -euxo pipefail
 
-# --- Base + SSM (Amazon Linux 2) ---
+# Install SSM, Python y Java 
 yum -y update
 yum -y install amazon-ssm-agent curl tar gzip python3
 systemctl enable --now amazon-ssm-agent || true
-
-# --- Java 17 (required by Spark) ---
 yum -y install java-17-amazon-corretto-headless || true
 
-# --- Install Apache Spark (binary, not pip) ---
-SPARK_VERSION="3.5.1"
+# Install Apache Spark
+SPARK_VERSION="3.4.1"
 SPARK_PKG="spark-${SPARK_VERSION}-bin-hadoop3"
 SPARK_TGZ="/tmp/${SPARK_PKG}.tgz"
 
@@ -21,10 +19,10 @@ if [[ ! -d "/opt/${SPARK_PKG}" ]]; then
 fi
 ln -sfn "/opt/${SPARK_PKG}" /opt/spark
 
-# --- Bake the Spark job and a runner ---
+# Create directory where job will run and output
 mkdir -p /opt/spark_jobs
 
-# Spark job: simple aggregation; writes JSON to /opt/spark_jobs/out.json
+# Spark job that writes JSON to /opt/spark_jobs/out.json
 cat >/opt/spark_jobs/sales_job.py <<'PY'
 from pyspark.sql import SparkSession, functions as F
 import json, os, sys
@@ -60,7 +58,7 @@ spark.stop()
 print("WROTE:/opt/spark_jobs/out.json", file=sys.stderr)
 PY
 
-# Runner: sets env, executes spark-submit, prints only the JSON payload
+# Run job setting env, executes spark-submit, prints only the JSON payload
 cat >/opt/spark_jobs/run_spark_job.sh <<'SH'
 #!/bin/bash
 set -euo pipefail

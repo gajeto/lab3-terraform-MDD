@@ -28,29 +28,26 @@ Al finalizar la configuración se muestran algunos datos de la instancia creada.
 ## Validación
 Una vez creada la instancia se puede inicar la conexión mediante el siguiente comando, especificando el argumento target con el valor copiado de **instance_ID**:
 ```bash
-aws ssm start-session --target i-020792ee5b4901ace
+aws ssm start-session --target i-048d4c81938f15457
 ```
-En la sesión iniciada se accede al ambiente virtual donde se instaló spark en la ruta:
+
+En la sesión iniciada se valida la correcta instalación de spark y se puede interactuar directamente si se activa el interprete python:
 ```bash
-cd ../../opt/app-venv/bin/
-source ./activate
-pip list
+sudo /opt/spark/bin/spark-submit --version
 ```
-Con esto se valida la correcta instalación de spark y se puede interactuar directamente si se activa el interprete python:
 
 ![CLI test](./results/cli-test.png)
 
-Para comprobar la correcta aplicación de los permisos de acceso SSM se puede incluso lanzar una web app con una prueba de funcionamiento de spark mediante el siguiente comando, reemplazando el argumento target por el **instance_ID** y exponiendo el puerto 8080 en la red local.
+Una prueba rápida de ejecución de una tarea simple de Spark se realiza lanzando el PySpark job implementado en `user_data.sh`. Se hace de esta forma para tener un script disponible desde la configuración de la instancia. Para ejecutar el job se aplica el comando:
 ```bash
-aws ssm start-session \
-  --target i-020792ee5b4901ace \
-  --document-name AWS-StartPortForwardingSession \
-  --parameters '{"portNumber":["8080"],"localPortNumber":["8080"]}'
-
+sudo /opt/spark_jobs/run_spark_job.sh 
+```
+La tarea guarda los resultados de ejecución en un archivo JSON que puede ser accedido mediante:
+```bash
+sudo cat /opt/spark_jobs/out.json 
 ```
 
-Finalmente se puede consultar la dirección `http://localhost:8080` para observar la web app lanzada desde EC2:
+![job out](./results/job-out.png)
 
-![web test](./results/web-test.png)
 
 
